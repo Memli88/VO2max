@@ -1,44 +1,50 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Longevity Training</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <header>
   <h1>Longevity Training</h1>
-  <p>Inspired by Outlive — Peter Attia</p>
+  <p>VO₂ Max · Strength · Healthspan</p>
 </header>
 
-<main id="app">
+<main>
 
-  <!-- Day Selector -->
+  <!-- Day Selection -->
   <section class="card">
-    <h2>انتخاب روز</h2>
+    <h2>Select Training Day</h2>
     <select id="daySelect">
-      <option value="">— انتخاب کن —</option>
-      <option value="day1">روز ۱ — Zone 2 + پایین‌تنه</option>
-      <option value="day2">روز ۲ — VO₂ Max</option>
-      <option value="day3">روز ۳ — Zone 2 + بالاتنه</option>
-      <option value="day4">روز ۴ — Mobility & Play</option>
+      <option value="">— Choose a day —</option>
+      <option value="day1">Day 1 — Zone 2 + Lower Body</option>
+      <option value="day2">Day 2 — VO₂ Max Intervals</option>
+      <option value="day3">Day 3 — Zone 2 + Upper Body</option>
+      <option value="day4">Day 4 — Mobility & Play</option>
     </select>
   </section>
 
-  <!-- Exercise List -->
-  <section class="card hidden" id="exerciseSection">
-    <h2>حرکت‌ها</h2>
-    <ul id="exerciseList"></ul>
-  </section>
+  <!-- Workout Screen -->
+  <section class="card hidden" id="workoutScreen">
 
-  <!-- Exercise Detail -->
-  <section class="card hidden" id="detailSection">
-    <h2 id="detailTitle"></h2>
-    <p id="detailDescription"></p>
-    <button onclick="closeDetail()">بازگشت</button>
+    <div class="progress-container">
+      <div id="progressBar"></div>
+    </div>
+
+    <h2 id="currentExercise">Ready</h2>
+    <p class="subtitle" id="nextExercise"></p>
+
+    <div class="timer" id="timer">00:00</div>
+
+    <p id="description"></p>
+
+    <button id="startBtn">Start Workout</button>
+    <button id="stopBtn" class="hidden">Stop</button>
+
   </section>
 
 </main>
