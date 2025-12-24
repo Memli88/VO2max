@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Longevity Training</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Longevity Training</h1>
+  <p>Inspired by Outlive — Peter Attia</p>
+</header>
+
+<main id="app">
+
+  <!-- Day Selector -->
+  <section class="card">
+    <h2>انتخاب روز</h2>
+    <select id="daySelect">
+      <option value="">— انتخاب کن —</option>
+      <option value="day1">روز ۱ — Zone 2 + پایین‌تنه</option>
+      <option value="day2">روز ۲ — VO₂ Max</option>
+      <option value="day3">روز ۳ — Zone 2 + بالاتنه</option>
+      <option value="day4">روز ۴ — Mobility & Play</option>
+    </select>
+  </section>
+
+  <!-- Exercise List -->
+  <section class="card hidden" id="exerciseSection">
+    <h2>حرکت‌ها</h2>
+    <ul id="exerciseList"></ul>
+  </section>
+
+  <!-- Exercise Detail -->
+  <section class="card hidden" id="detailSection">
+    <h2 id="detailTitle"></h2>
+    <p id="detailDescription"></p>
+    <button onclick="closeDetail()">بازگشت</button>
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
