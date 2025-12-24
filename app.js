@@ -1,83 +1,179 @@
-const exercises = {
+const workouts = {
   day1: [
     {
       name: "Zone 2 Flow",
-      desc: "حرکت پیوسته با تنفس بینی، شدت متوسط، قابل صحبت کردن."
+      time: 600,
+      desc: "Continuous movement. Nasal breathing. You should be able to talk.",
     },
     {
       name: "Squat",
-      desc: "اسکات با وزن بدن یا دمبل، تمرکز روی کنترل و تنفس."
+      time: 60,
+      desc: "Controlled squats. Inhale down, exhale up.",
     },
     {
       name: "Reverse Lunge",
-      desc: "لانج معکوس برای زانوهای امن‌تر و تقویت لگن."
+      time: 60,
+      desc: "Step back gently. Keep chest tall.",
     }
   ],
+
   day2: [
     {
-      name: "VO₂ Max Intervals",
-      desc: "۴۰ ثانیه شدت بالا + ۸۰ ثانیه ریکاوری، نفس‌نفس واقعی."
+      name: "Warm-up Flow",
+      time: 300,
+      desc: "Gentle movement to prepare heart and joints.",
     },
     {
-      name: "Mountain Climber",
-      desc: "کنترل‌شده، بدون ضربه، تمرکز روی ریتم."
+      name: "High Intensity Interval",
+      time: 40,
+      desc: "Push hard. Breathing heavy. Near max effort.",
+    },
+    {
+      name: "Recovery",
+      time: 80,
+      desc: "Slow movement. Deep breathing.",
+    },
+    {
+      name: "High Intensity Interval",
+      time: 40,
+      desc: "Second round. Strong but controlled.",
+    },
+    {
+      name: "Recovery",
+      time: 80,
+      desc: "Let heart rate come down.",
     }
   ],
+
   day3: [
     {
       name: "Zone 2 Cardio",
-      desc: "۱۵ دقیقه حرکت یکنواخت با ضربان متوسط."
+      time: 600,
+      desc: "Steady pace. Calm focus.",
     },
     {
-      name: "Push-up",
-      desc: "شنا با کنترل، ستون قدرت بالاتنه."
+      name: "Push-ups",
+      time: 60,
+      desc: "Strong plank. Elbows close to body.",
     },
     {
       name: "Dumbbell Row",
-      desc: "تقویت پشت و شانه برای posture و طول عمر."
+      time: 60,
+      desc: "Pull with back, not arms.",
     }
   ],
+
   day4: [
     {
       name: "Tai Chi Flow",
-      desc: "حرکت نرم برای مغز، تعادل و سیستم عصبی."
+      time: 600,
+      desc: "Slow, mindful, continuous movement.",
     },
     {
-      name: "Animal Flow",
-      desc: "حرکات طبیعی برای بدن واقعی."
+      name: "Balance Practice",
+      time: 300,
+      desc: "Single-leg balance. Soft gaze.",
     }
   ]
 };
 
+let currentWorkout = [];
+let index = 0;
+let timeLeft = 0;
+let totalTime = 0;
+let elapsed = 0;
+let interval;
+
 const daySelect = document.getElementById("daySelect");
-const exerciseSection = document.getElementById("exerciseSection");
-const exerciseList = document.getElementById("exerciseList");
-const detailSection = document.getElementById("detailSection");
-const detailTitle = document.getElementById("detailTitle");
-const detailDescription = document.getElementById("detailDescription");
+const workoutScreen = document.getElementById("workoutScreen");
+const currentExercise = document.getElementById("currentExercise");
+const nextExercise = document.getElementById("nextExercise");
+const timerEl = document.getElementById("timer");
+const descEl = document.getElementById("description");
+const progressBar = document.getElementById("progressBar");
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
 
 daySelect.addEventListener("change", () => {
-  const day = daySelect.value;
-  exerciseList.innerHTML = "";
-  if (!day) return;
-
-  exercises[day].forEach(ex => {
-    const li = document.createElement("li");
-    li.textContent = ex.name;
-    li.onclick = () => showDetail(ex);
-    exerciseList.appendChild(li);
-  });
-
-  exerciseSection.classList.remove("hidden");
-  detailSection.classList.add("hidden");
+  if (!daySelect.value) return;
+  currentWorkout = workouts[daySelect.value];
+  totalTime = currentWorkout.reduce((a, b) => a + b.time, 0);
+  workoutScreen.classList.remove("hidden");
 });
 
-function showDetail(ex) {
-  detailTitle.textContent = ex.name;
-  detailDescription.textContent = ex.desc;
-  detailSection.classList.remove("hidden");
+startBtn.onclick = startWorkout;
+stopBtn.onclick = stopWorkout;
+
+function startWorkout() {
+  startBtn.classList.add("hidden");
+  stopBtn.classList.remove("hidden");
+  index = 0;
+  elapsed = 0;
+  startExercise();
 }
 
-function closeDetail() {
-  detailSection.classList.add("hidden");
+function startExercise() {
+  if (index >= currentWorkout.length) {
+    finishWorkout();
+    return;
+  }
+
+  const ex = currentWorkout[index];
+  timeLeft = ex.time;
+
+  currentExercise.textContent = ex.name;
+  descEl.textContent = ex.desc;
+  nextExercise.textContent =
+    index + 1 < currentWorkout.length
+      ? `Next: ${currentWorkout[index + 1].name}`
+      : "Last exercise";
+
+  beep();
+  updateTimer();
+
+  interval = setInterval(() => {
+    timeLeft--;
+    elapsed++;
+    updateTimer();
+    updateProgress();
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      index++;
+      startExercise();
+    }
+  }, 1000);
+}
+
+function updateTimer() {
+  const min = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+  const sec = String(timeLeft % 60).padStart(2, "0");
+  timerEl.textContent = `${min}:${sec}`;
+}
+
+function updateProgress() {
+  const percent = (elapsed / totalTime) * 100;
+  progressBar.style.width = percent + "%";
+}
+
+function finishWorkout() {
+  beep();
+  currentExercise.textContent = "Workout Complete";
+  nextExercise.textContent = "";
+  descEl.textContent = "Great job. Recover and hydrate.";
+  stopBtn.classList.add("hidden");
+}
+
+function stopWorkout() {
+  clearInterval(interval);
+  startBtn.classList.remove("hidden");
+  stopBtn.classList.add("hidden");
+}
+
+function beep() {
+  const ctx = new AudioContext();
+  const osc = ctx.createOscillator();
+  osc.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.1);
 }
