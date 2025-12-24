@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+header {
+  text-align: center;
+  padding: 1.5rem;
+  background: #020617;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+main {
+  padding: 1rem;
+}
+
+.card {
+  background: #020617;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+select, button {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 0.6rem;
+  margin-bottom: 0.5rem;
+  background: #0f172a;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+li:hover {
+  background: #1e293b;
+}
+
+.hidden {
+  display: none;
+}
